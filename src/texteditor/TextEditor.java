@@ -229,7 +229,7 @@ public class TextEditor extends Application {
         
         
         
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Text Editor");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
