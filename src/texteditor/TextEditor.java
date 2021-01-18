@@ -6,9 +6,12 @@
 package texteditor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -82,7 +85,29 @@ public class TextEditor extends Application {
             @Override
             public void handle(ActionEvent event) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                showSingleFileChooser();
+                //showSingleFileChooser();
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Resource File");
+                File file = fileChooser.showOpenDialog(primaryStage);
+                //filePath = file;
+                if (file != null) {
+
+                    try {
+                        FileReader fis = new FileReader(file);
+                        FileReader bis = new FileReader(file);
+                        //byte b[] = new byte[(int) file.length()];
+                        char[]  ch = new char[(char) fis.read()];
+                        bis.read(ch);
+                        String data = new String(ch);
+                        area.setText(data);
+                        System.out.println(ch);
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
                  
             }
         });
@@ -237,27 +262,6 @@ public class TextEditor extends Application {
     /**
      * @param args the command line arguments
      */
-    private void showSingleFileChooser() {
-
-    FileChooser fileChooser = new FileChooser();
-    File selectedFile = fileChooser.showOpenDialog(null);
-    
-    if (selectedFile != null) {
-        System.out.println(selectedFile);
-        //area.setText();
-        try (Scanner scanner = new Scanner(new File(selectedFile.toString()))) {
-
-        while (scanner.hasNextLine())
-            area.appendText(scanner.nextLine());
-            area.appendText("\n");
-        //(scanner.next() + " ");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-   }
     private void saveTextToFile(String content, File file) {
         try {
             PrintWriter writer;
